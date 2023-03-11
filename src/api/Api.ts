@@ -18,7 +18,7 @@ const responseSuccessInterceptor = (response: AxiosResponse) => {
 
 const errorInterceptor = (error: AxiosError) => {
   const responseError = error?.response?.data;
-  return { error1: responseError || error };
+  return { error: responseError || error };
 };
 
 api.interceptors.response.use(responseSuccessInterceptor, errorInterceptor);

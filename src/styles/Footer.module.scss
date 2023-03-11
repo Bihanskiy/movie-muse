@@ -1,0 +1,21 @@
+@import "tools/tools";
+
+.footer {
+  padding: 20px 20px 10px 20px;
+  background-color: $second-color;
+
+  .footerContent {
+    padding: 20px 0;
+    .footerLogo {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  .footerBottom {
+    .footerReservedText {
+      font-size: 14px;
+      color: $main-color;
+    }
+  }
+}

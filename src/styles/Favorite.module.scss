@@ -1,0 +1,16 @@
+@import "tools/tools";
+@import "layout/main";
+
+.favoriteSection {
+  padding: 60px 0;
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  .noDataText {
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+  }
+}

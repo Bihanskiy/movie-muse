@@ -1,132 +1,118 @@
-import React, { useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import * as React from 'react';
+
+import { useRouter } from "next/router";
+
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-import { useRequest } from '@/hooks/useRequest';
-import MoviesService from '@/services/MoviesService';
-import { useMovieSearchData } from '@/hooks/store/useMovieSearchData';
-import { useSetMovieSearchData } from '@/hooks/store/useSetMovieSearchData';
-
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+const drawerWidth = 240;
+const navMap = [
+  {
+    name: "Home",
+    path: "/",
   },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
+  {
+    name: "Favorite",
+    path: "/favorite",
   },
-}));
+];
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
+export default function Header() {
+  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
 
-const Header = () => {
-  const [movieTitle, setMovieTitle] = useState("");
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        Movie Muse
+      </Typography>
+      <Divider />
+      <List>
+        {navMap.map((nav) => (
+          <ListItem key={nav.name} disablePadding>
+            <ListItemButton
+              sx={{ textAlign: 'center' }}
+              onClick={() => router.push(nav.path)}
+            >
+              <ListItemText primary={nav.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
-  const { movieSearchData } = useMovieSearchData();
-  const { setMovieSearchData } = useSetMovieSearchData();
-
-  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
-
-
-  console.log(movieSearchData);
-
-
-  const {
-    request: getMoviesRequest
-  } = useRequest(MoviesService.GetMoviesByTitle);
-
-  const searchMovieHandle = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const titleText = e.target.value;
-    setMovieTitle(titleText);
-
-    if (timer) {
-      clearTimeout(timer);
-    }
-    setTimer(
-      setTimeout(async () => {
-        const response = await getMoviesRequest(titleText);
-        setMovieSearchData(response);
-      }, 700)
-    )
-  }
 
   return (
-    <AppBar
-      position="static"
-    >
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
+    <Box component="header" sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar component="nav">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            Movie Muse
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {navMap.map((nav) => (
+              <Button
+                key={nav.name}
+                sx={{ color: (router.pathname === nav.path ? "#12D3A5" : "#fff") }}
+                onClick={() => router.push(nav.path)}
+              >
+                {nav.name}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
           sx={{
-            flexGrow: 1,
-            display: { xs: 'none', sm: 'block' },
-            fontWeight: 700,
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              backgroundColor: "#333",
+              boxSizing: 'border-box',
+              width: drawerWidth
+            },
           }}
         >
-          Movie Muse
-        </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-            value={movieTitle}
-            onChange={searchMovieHandle}
-          />
-        </Search>
-      </Toolbar>
-    </AppBar>
+          {drawer}
+        </Drawer>
+      </Box>
+    </Box>
   );
 }
-
-export default Header;

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppState } from "../store";
 import { HYDRATE } from "next-redux-wrapper";
 
+import { IMovieSearchData } from "@/types/MoviesType";
 interface IMovieSearchResponse<T> {
   Search: T;
   totalResults: string;
@@ -13,25 +14,13 @@ interface IDefaultResponse<T> {
   err: { message: string } | null;
 }
 
-interface IMovieSearchData {
-  imdbID: string;
-  Title: string;
-  Year: string;
-}
-
-// const movieSearchData: IMovieSearchData = {
-//   imdbID: "",
-//   Title: "",
-//   Year: "",
-// }
-
-const movieSearchData: IDefaultResponse<IMovieSearchData> = {
+const movieSearchData: IDefaultResponse<IMovieSearchData[]> = {
   res: null,
   err: null
 }
 
 export interface movieSearchState {
-  movieSearchState: IDefaultResponse<IMovieSearchData>;
+  movieSearchState: IDefaultResponse<IMovieSearchData[]>;
 }
 
 const initialState: movieSearchState = {

@@ -8,7 +8,7 @@ const theme = createTheme(
   {
     palette: {
       primary: { main: '#000', contrastText: '#fff' },
-      secondary: { main: '#fff', contrastText: '#12D3A5' },
+      secondary: { main: '#333', contrastText: '#fff' },
       error: { main: '#F3494C' },
       warning: { main: '#FFCB65' },
       success: { main: '#12D3A5' },
@@ -32,6 +32,9 @@ const theme = createTheme(
         color: "#fff",
       },
       h5: {
+        color: "#fff",
+      },
+      h6: {
         color: "#fff",
       },
       button: {

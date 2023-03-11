@@ -1,0 +1,63 @@
+@import "tools/tools";
+
+.movieSection {
+  padding: 70px 0;
+
+  .header {
+    @extend %flex-ac;
+
+    .navigationHistory {
+      flex-grow: 1;
+    }
+  }
+
+  .main {
+    @extend %flex;
+    gap: 30px;
+    padding-top: 50px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    @media screen and (max-width: 485px) {
+      justify-content: center;
+    }
+
+    .imageContainer {
+      flex-shrink: 0;
+      max-width: 300px;
+      width: 100%;
+
+      .image {
+        object-fit: contain;
+        width: 100% !important;
+        position: relative !important;
+      }
+    }
+
+    .infoContainer {
+      flex-grow: 1;
+      > :not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      .movieTitle {
+        font-weight: 600;
+        font-size: 30px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .descriptionContainer {
+    .descriptionBox {
+      &:not(:last-child) {
+        margin-bottom: 25px;
+      }
+
+      .descriptionTitle {
+        font-weight: 600;
+        font-size: 25px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
