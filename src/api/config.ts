@@ -3,7 +3,7 @@ interface IAppConfig {
 }
 
 const AppConfig: IAppConfig = {
-  baseURL: 'http://www.omdbapi.com/',
+  baseURL: 'https://www.omdbapi.com/',
 };
 
 export default AppConfig;
